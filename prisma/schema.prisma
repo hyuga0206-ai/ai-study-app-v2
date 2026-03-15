@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model TopicProgress {
+  id          Int       @id @default(autoincrement())
+  topicId     String    @unique
+  isCompleted Boolean   @default(false)
+  viewedAt    DateTime  @default(now())
+  completedAt DateTime?
+}
+
+model QuizAnswer {
+  id          Int      @id @default(autoincrement())
+  questionId  String
+  chapterId   Int
+  selectedIdx Int
+  isCorrect   Boolean
+  answeredAt  DateTime @default(now())
+}
+
+model QuizSession {
+  id           Int       @id @default(autoincrement())
+  chapterId    Int
+  totalCount   Int
+  correctCount Int       @default(0)
+  startedAt    DateTime  @default(now())
+  completedAt  DateTime?
+}
+
+model DailyRecord {
+  id       Int    @id @default(autoincrement())
+  date     String @unique
+  studyMin Int    @default(0)
+}
